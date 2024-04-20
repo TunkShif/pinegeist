@@ -1,0 +1,18 @@
+{
+  "name": "@tunkshif/pinegeist",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Tristan Yang <tunkshif@foxmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.0",
+    "@types/alpinejs": "^3.13.10",
+    "@types/node": "^20.12.7",
+    "esbuild": "^0.20.2"
+  }
+}
