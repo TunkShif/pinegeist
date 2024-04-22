@@ -1,7 +1,11 @@
+import type { LiveSocket } from "phoenix_live_view"
+import { encode, type CommandMap } from "./command"
+
 type Dict = Record<string, unknown>
 
 interface ViewHookInstance {
   el: HTMLElement
+  liveSocket: LiveSocket
   handleEvent<T extends Dict>(event: string, onEvent: (payload: T) => void): () => void
   pushEvent<T extends Dict, R extends Dict>(
     event: string,
@@ -33,8 +37,8 @@ export class LiveHelper {
     this.#viewHook.pushEvent(event, payload, onReply)
   }
 
-  exec() {
-    // TODO: implement this later
+  exec<TName extends keyof CommandMap>(el: HTMLElement, name: TName, params: CommandMap[TName]) {
+    this.#viewHook.liveSocket.execJS(el, encode(name, params))
   }
 }
 

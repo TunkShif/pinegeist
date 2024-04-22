@@ -1,6 +1,10 @@
 import type { PluginCallback } from "alpinejs"
+import { createCommands } from "./command"
+import type { LiveHelper } from "./live"
 
 // an object that always return a noop function when accessed
+// the lv helper is initialized only after LiveView has mounted
+// returns a noop object when LiveView is not ready
 const noop = () => {}
 const uninitialized = new Proxy(
   {},
@@ -9,14 +13,18 @@ const uninitialized = new Proxy(
       return noop
     }
   }
-)
+) as LiveHelper
 
 export const plugin: PluginCallback = (Alpine) => {
   Alpine.magic("live", (el) => {
-    // the lv helper is initialized only after LiveView has mounted
-    // returns a noop object when LiveView is not ready
     const root = Alpine.closestRoot(el)
     return root?._lv_helper ?? uninitialized
+  })
+
+  Alpine.magic("js", (el) => {
+    const root = Alpine.closestRoot(el)
+    const lv = root?._lv_helper ?? uninitialized
+    return lv === uninitialized ? lv : createCommands(el, lv)
   })
 
   Alpine.directive("live-on", (el, { value, expression }, { evaluate }) => {

@@ -25,6 +25,17 @@ var Pinegeist = (() => {
     plugin: () => plugin
   });
 
+  // js/pinegeist/command.ts
+  var encode = (name, params) => JSON.stringify([[name, params]]);
+  var createCommands = (el, lv) => new Proxy(
+    {},
+    {
+      get(_target, name) {
+        return (params = {}) => lv.exec(el, name, params);
+      }
+    }
+  );
+
   // js/pinegeist/live.ts
   var LiveHelper = class {
     #viewHook;
@@ -37,7 +48,8 @@ var Pinegeist = (() => {
     push(event, payload, onReply) {
       this.#viewHook.pushEvent(event, payload, onReply);
     }
-    exec() {
+    exec(el, name, params) {
+      this.#viewHook.liveSocket.execJS(el, encode(name, params));
     }
   };
   var Hook = {
@@ -61,6 +73,11 @@ var Pinegeist = (() => {
     Alpine.magic("live", (el) => {
       const root = Alpine.closestRoot(el);
       return root?._lv_helper ?? uninitialized;
+    });
+    Alpine.magic("js", (el) => {
+      const root = Alpine.closestRoot(el);
+      const lv = root?._lv_helper ?? uninitialized;
+      return lv === uninitialized ? lv : createCommands(el, lv);
     });
     Alpine.directive("live-on", (el, { value, expression }, { evaluate }) => {
       const root = Alpine.closestRoot(el);

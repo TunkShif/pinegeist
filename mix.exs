@@ -4,11 +4,12 @@ defmodule Pinegeist.MixProject do
   def project do
     [
       app: :pinegeist,
-      version: "0.1.0",
+      version: "0.1.0-alpha",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      aliases: aliases()
+      aliases: aliases(),
+      source_url: "https://github.com/TunkShif/pinegeist"
     ]
   end
 
