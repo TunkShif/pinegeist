@@ -7,7 +7,8 @@ defmodule Pinegeist.MixProject do
       version: "0.1.0",
       elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
@@ -23,6 +24,12 @@ defmodule Pinegeist.MixProject do
     [
       {:jason, "~> 1.2"},
       {:phoenix_live_view, "~> 0.20.2"}
+    ]
+  end
+
+  defp aliases do
+    [
+      "assets.build": ["cmd --cd assets bun run build"]
     ]
   end
 end
