@@ -91,13 +91,18 @@ export interface CommandMap {
 export const encode = (name: string, params: Record<string, unknown>) =>
   JSON.stringify([[name, params]])
 
-export const createCommands = (el: HTMLElement, lv: LiveHelper) =>
-  new Proxy(
-    {},
-    {
-      get(_target, name) {
-        return (params: Record<string, unknown> = {}) =>
-          lv.exec(el, name as keyof CommandMap, params)
+export const createCommands = (el: HTMLElement, lv: LiveHelper) => {
+  let memo: Record<string, (...args: unknown[]) => void> | undefined
+  if (!memo) {
+    memo = new Proxy(
+      {},
+      {
+        get(_target, name) {
+          return (params: Record<string, unknown> = {}) =>
+            lv.exec(el, name as keyof CommandMap, params)
+        }
       }
-    }
-  )
+    )
+  }
+  return memo
+}

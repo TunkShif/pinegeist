@@ -2,7 +2,7 @@
   "name": "pinegeist",
   "version": "0.1.0-alpha",
   "author": "Tristan Yang <tunkshif@foxmail.com>",
-  "description": "AlpineJS integration for Phoenix LiveView",
+  "description": "AlpineJS integration for Phoenix LiveView.",
   "license": "MIT",
   "types": "./priv/static/types/index.d.ts",
   "main": "./priv/static/pinegeist.cjs.js",

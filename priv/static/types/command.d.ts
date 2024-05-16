@@ -86,5 +86,5 @@ export interface CommandMap {
     };
 }
 export declare const encode: (name: string, params: Record<string, unknown>) => string;
-export declare const createCommands: (el: HTMLElement, lv: LiveHelper) => {};
+export declare const createCommands: (el: HTMLElement, lv: LiveHelper) => Record<string, (...args: unknown[]) => void>;
 export {};

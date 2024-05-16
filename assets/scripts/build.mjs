@@ -1,4 +1,7 @@
+import { rm } from "node:fs/promises"
 import esbuild from "esbuild"
+
+const clean = () => rm("../priv/static", { recursive: true, force: true })
 
 const entries = [
   {
@@ -31,4 +34,5 @@ const entries = [
   }
 ]
 
+await clean()
 await Promise.all(entries.map((entry) => esbuild.build(entry))).catch(() => process.exit(1))
