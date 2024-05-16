@@ -16,7 +16,7 @@ defmodule Pinegeist do
       id={unique_id()}
       phx-update="ignore"
       phx-hook="Pinegeist"
-      style="display: content;"
+      style="display: contents;"
       x-pinegeist
       {@rest}
     >
