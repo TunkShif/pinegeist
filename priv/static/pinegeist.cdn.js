@@ -43,12 +43,6 @@ var Pinegeist = (() => {
   };
 
   // js/pinegeist/live.ts
-  var markRaw = (value) => {
-    if (Object.isExtensible(value)) {
-      Object.defineProperty(value, "__v_skip", { configurable: true, enumerable: false, value: true });
-    }
-    return value;
-  };
   var LiveHelper = class {
     #viewHook;
     constructor(viewHook) {
@@ -66,7 +60,7 @@ var Pinegeist = (() => {
   };
   var Hook = {
     mounted() {
-      this.el._lv_helper = markRaw(new LiveHelper(this));
+      this.el._lv_helper = new LiveHelper(this);
     }
   };
 
@@ -81,26 +75,17 @@ var Pinegeist = (() => {
       }
     }
   );
+  var getLiveHelper = (el) => {
+    return el.closest("pinegeist-island")?._lv_helper ?? uninitialized;
+  };
   var plugin = (Alpine) => {
-    Alpine.directive("pinegeist", (el) => {
-      Alpine.bind(el, {
-        "x-data"() {
-          return {
-            get _lv_helper() {
-              return this.$el._lv_helper ?? uninitialized;
-            }
-          };
-        }
-      });
-    });
-    Alpine.magic("live", (el) => Alpine.$data(el)._lv_helper);
+    Alpine.magic("live", (el) => getLiveHelper(el));
     Alpine.magic("js", (el) => {
-      const lv = Alpine.$data(el)._lv_helper;
+      const lv = getLiveHelper(el);
       return lv === uninitialized ? lv : createCommands(el, lv);
     });
     Alpine.directive("live-on", (el, { value, expression }, { evaluate }) => {
-      const lv = Alpine.$data(el)._lv_helper;
-      console.log(lv);
+      const lv = getLiveHelper(el);
       lv.on(value, (payload) => {
         evaluate(expression, { scope: { $payload: payload, params: [payload] } });
       });

@@ -18,13 +18,6 @@ interface ViewHook {
   mounted(this: ViewHookInstance): void
 }
 
-const markRaw = <T>(value: T) => {
-  if (Object.isExtensible(value)) {
-    Object.defineProperty(value, "__v_skip", { configurable: true, enumerable: false, value: true })
-  }
-  return value
-}
-
 export class LiveHelper {
   #viewHook: ViewHookInstance
 
@@ -51,6 +44,6 @@ export class LiveHelper {
 
 export const Hook = {
   mounted() {
-    this.el._lv_helper = markRaw(new LiveHelper(this))
+    this.el._lv_helper = new LiveHelper(this)
   }
 } satisfies ViewHook

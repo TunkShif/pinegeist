@@ -1,7 +1,7 @@
 defmodule Pinegeist.MixProject do
   use Mix.Project
 
-  @version "0.1.0-alpha"
+  @version "0.1.1-alpha"
   @source_url "https://github.com/TunkShif/pinegeist"
 
   def project do
