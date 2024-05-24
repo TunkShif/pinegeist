@@ -1,2 +1,2 @@
-export { createHooks } from "./hook"
+export { createHook } from "./hook"
 export { plugin } from "./plugin"

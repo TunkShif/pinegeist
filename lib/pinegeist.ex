@@ -5,7 +5,7 @@ defmodule Pinegeist do
 
   use Phoenix.Component
 
-  defp unique_id, do: "p-" <> Integer.to_string(36 ** 3 + :rand.uniform(36 ** 4), 36)
+  attr :id, :string, required: true
 
   slot :prop do
     attr :name, :string, required: true
@@ -15,23 +15,28 @@ defmodule Pinegeist do
   slot :inner_block, required: true
 
   def island(assigns) do
-    assigns = assign(assigns, id: unique_id())
-
     ~H"""
-    <pinegeist-island x-pinegeist style="display: contents;">
+    <pinegeist-island x-data x-pinegeist style="display: contents;">
       <pinegeist-props style="display: none;">
         <script
           :for={prop <- @prop}
-          id={"#{@id}:#{prop.name}"}
-          phx-hook="Pinegeist.Prop"
+          id={"p-#{@id}:#{prop.name}"}
+          phx-hook="Pinegeist"
           type="application/json"
           data-name={prop.name}
+          data-prop
         >
           <%= Jason.encode!(prop.value) %>
         </script>
       </pinegeist-props>
 
-      <div id={@id} phx-hook="Pinegeist.Render" style="display: contents;">
+      <div
+        id={"p-#{@id}"}
+        phx-hook="Pinegeist"
+        phx-update="ignore"
+        style="display: contents;"
+        data-render
+      >
         <%= render_slot(@inner_block) %>
       </div>
     </pinegeist-island>

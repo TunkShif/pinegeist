@@ -7,7 +7,6 @@
     "build": "tsup",
     "format": "biome check --apply --linter-enabled=false ./js"
   },
-  "keywords": [],
   "author": "Tristan Yang <tunkshif@foxmail.com>",
   "license": "MIT",
   "devDependencies": {

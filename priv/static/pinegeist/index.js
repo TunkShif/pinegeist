@@ -8,7 +8,7 @@ var LiveHelper = class {
       {},
       {
         get(_target, name) {
-          return (params) => viewHook.liveSocket.execJS(viewHook.el, JSON.stringy([[name, params]]));
+          return (params) => viewHook.liveSocket.execJS(viewHook.el, JSON.stringify([[name, params]]));
         }
       }
     );
@@ -24,9 +24,38 @@ var LiveHelper = class {
   }
 };
 
+// js/pinegeist/hook.js
+var started = false;
+var createHook = (Alpine) => ({
+  mounted() {
+    this.isProp = this.el.dataset.prop != null;
+    const root = this.el.closest("pinegeist-island");
+    if (!root.__live_helper) {
+      root.__live_helper = new LiveHelper(this);
+    }
+    if (!started) {
+      Alpine.start();
+      started = true;
+    }
+    if (this.isProp) {
+      this.propName = this.el.dataset.name;
+      this.updatePropValue();
+    }
+  },
+  updated() {
+    if (!this.isProp)
+      return;
+    this.updatePropValue();
+  },
+  getPropValue() {
+    return JSON.parse(this.el.innerText);
+  },
+  updatePropValue() {
+    Alpine.$data(this.el).__pinegeist_props[this.propName] = this.getPropValue();
+  }
+});
+
 // js/pinegeist/utils.js
-var noop = () => {
-};
 var markRaw = (value) => {
   if (Object.isExtensible(value)) {
     Object.defineProperty(value, "__v_skip", { configurable: true, enumerable: false, value: true });
@@ -34,62 +63,23 @@ var markRaw = (value) => {
   return value;
 };
 
-// js/pinegeist/hook.js
-var createHooks = (Alpine) => ({
-  Prop: {
-    mounted() {
-      this.update();
-    },
-    updated() {
-      this.update();
-    },
-    get name() {
-      return this.el.dataset.name;
-    },
-    get value() {
-      return JSON.parse(this.el.innerText);
-    },
-    update() {
-      Alpine.$data(this.el).__pinegeist_props[this.name] = this.value;
-    }
-  },
-  Render: {
-    mounted() {
-      Alpine.$data(this.el).__pinegeist_live_helper = markRaw({ value: new LiveHelper(this) });
-    }
-  }
-});
-
 // js/pinegeist/plugin.js
-var dummy = new Proxy(
-  {},
-  {
-    get() {
-      return noop;
-    }
-  }
-);
 var plugin = (Alpine) => {
-  Alpine.directive("pinegeist", (el) => {
-    Alpine.bind(el, {
-      "x-data"() {
-        return {
-          __pinegeist_props: {},
-          __pinegeist_live_helper: markRaw({ value: dummy })
-        };
-      }
-    });
-  });
   Alpine.directive("live-on", (el, { value, expression }, { evaluate }) => {
     Alpine.$data(el).__pinegeist_live_helper.value.on(value, (payload) => {
       evaluate(expression, { scope: { $payload: payload, params: [payload] } });
     });
   });
+  Alpine.directive("pinegeist", (el) => {
+    const component = Alpine.$data(el);
+    component.__pinegeist_props = {};
+    component.__pinegeist_live_helper = markRaw({ value: el.__live_helper });
+  }).before("live-on");
   Alpine.magic("props", (el) => Alpine.$data(el).__pinegeist_props);
   Alpine.magic("live", (el) => Alpine.$data(el).__pinegeist_live_helper.value);
 };
 export {
-  createHooks,
+  createHook,
   plugin
 };
 //# sourceMappingURL=index.js.map

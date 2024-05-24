@@ -8,7 +8,8 @@ export class LiveHelper {
       {},
       {
         get(_target, name) {
-          return (params) => viewHook.liveSocket.execJS(viewHook.el, JSON.stringy([[name, params]]))
+          return (params) =>
+            viewHook.liveSocket.execJS(viewHook.el, JSON.stringify([[name, params]]))
         }
       }
     )
