@@ -1,18 +1,16 @@
 {
   "name": "@tunkshif/pinegeist",
-  "version": "0.1.1-alpha",
+  "version": "0.2.0-alpha",
   "author": "Tristan Yang <tunkshif@foxmail.com>",
   "description": "AlpineJS integration for Phoenix LiveView.",
   "license": "MIT",
-  "types": "./priv/static/types/index.d.ts",
-  "main": "./priv/static/pinegeist.cjs.js",
-  "module": "./priv/static/pinegeist.esm.js",
-  "unpkg": "./priv/static/pinegeist.cdn.min.js",
-  "jsdelivr": "./priv/static/pinegeist.cdn.min.js",
+  "types": "./assets/js/pinegeist/index.d.ts",
+  "main": "./priv/static/pinegeist/index.cjs",
+  "module": "./priv/static/pinegeist/index.js",
   "exports": {
-    "types": "./priv/static/types/index.d.ts",
-    "import": "./priv/static/pinegeist.esm.js",
-    "require": "./priv/static/pinegeist.cjs.js"
+    "types": "./assets/js/pinegeist/index.d.ts",
+    "import": "./priv/static/pinegeist/index.js",
+    "require": "./priv/static/pinegeist/index.cjs"
   },
   "repository": {
     "type": "git",

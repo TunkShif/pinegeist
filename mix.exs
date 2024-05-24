@@ -1,7 +1,7 @@
 defmodule Pinegeist.MixProject do
   use Mix.Project
 
-  @version "0.1.1-alpha"
+  @version "0.2.0-alpha"
   @source_url "https://github.com/TunkShif/pinegeist"
 
   def project do
@@ -36,6 +36,7 @@ defmodule Pinegeist.MixProject do
 
   defp aliases do
     [
+      "assets.setup": ["cmd --cd assets pnpm install"],
       "assets.build": ["cmd --cd assets pnpm run build"]
     ]
   end
