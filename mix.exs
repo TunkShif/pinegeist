@@ -30,6 +30,7 @@ defmodule Pinegeist.MixProject do
     [
       {:jason, "~> 1.2"},
       {:phoenix_live_view, "~> 0.20.2"},
+      {:makeup_eex, "~> 0.1.0", only: :dev, runtime: false},
       {:ex_doc, "~> 0.31", only: :dev, runtime: false}
     ]
   end
@@ -42,6 +43,19 @@ defmodule Pinegeist.MixProject do
   end
 
   defp docs do
-    [main: "readme", extras: ["README.md"]]
+    [
+      main: "overview",
+      extras: extras(),
+      groups_for_docs: [
+        Components: &(&1[:type] == :component)
+      ]
+    ]
+  end
+
+  defp extras do
+    [
+      "guides/overview.md",
+      "guides/alpine-integration.md"
+    ]
   end
 end
