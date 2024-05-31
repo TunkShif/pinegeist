@@ -1,6 +1,6 @@
 {
   "name": "@tunkshif/pinegeist",
-  "version": "0.2.1-alpha",
+  "version": "0.3.0-alpha",
   "author": "Tristan Yang <tunkshif@foxmail.com>",
   "description": "AlpineJS integration for Phoenix LiveView.",
   "license": "MIT",

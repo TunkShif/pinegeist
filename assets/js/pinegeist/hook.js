@@ -5,7 +5,7 @@ let started = false
 /**
  * @param {import("alpinejs").Alpine} Alpine
  */
-export const createHook = (Alpine) => ({
+export const createPinegeistHook = (Alpine) => ({
   mounted() {
     this.isProp = this.el.dataset.prop != null
 

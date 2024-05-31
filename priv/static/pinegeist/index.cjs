@@ -19,8 +19,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // js/pinegeist/index.js
 var pinegeist_exports = {};
 __export(pinegeist_exports, {
-  createHook: () => createHook,
-  plugin: () => plugin
+  createPinegeistHook: () => createPinegeistHook,
+  pinegeist: () => pinegeist
 });
 module.exports = __toCommonJS(pinegeist_exports);
 
@@ -52,7 +52,7 @@ var LiveHelper = class {
 
 // js/pinegeist/hook.js
 var started = false;
-var createHook = (Alpine) => ({
+var createPinegeistHook = (Alpine) => ({
   mounted() {
     this.isProp = this.el.dataset.prop != null;
     const root = this.el.closest("pinegeist-island");
@@ -90,7 +90,7 @@ var markRaw = (value) => {
 };
 
 // js/pinegeist/plugin.js
-var plugin = (Alpine) => {
+var pinegeist = (Alpine) => {
   Alpine.directive("live-on", (el, { value, expression }, { evaluate }) => {
     Alpine.$data(el).__pinegeist_live_helper.value.on(value, (payload) => {
       evaluate(expression, { scope: { $payload: payload, params: [payload] } });
@@ -106,7 +106,7 @@ var plugin = (Alpine) => {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  createHook,
-  plugin
+  createPinegeistHook,
+  pinegeist
 });
 //# sourceMappingURL=index.cjs.map

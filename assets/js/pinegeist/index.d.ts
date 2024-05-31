@@ -1,4 +1,4 @@
 import type { Alpine, PluginCallback } from "alpinejs"
 
-declare const plugin: PluginCallback
-declare function createHook(Alpine: Alpine): unknown
+declare const pinegeist: PluginCallback
+declare function createPinegeistHook(Alpine: Alpine): unknown

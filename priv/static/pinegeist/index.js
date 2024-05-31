@@ -26,7 +26,7 @@ var LiveHelper = class {
 
 // js/pinegeist/hook.js
 var started = false;
-var createHook = (Alpine) => ({
+var createPinegeistHook = (Alpine) => ({
   mounted() {
     this.isProp = this.el.dataset.prop != null;
     const root = this.el.closest("pinegeist-island");
@@ -64,7 +64,7 @@ var markRaw = (value) => {
 };
 
 // js/pinegeist/plugin.js
-var plugin = (Alpine) => {
+var pinegeist = (Alpine) => {
   Alpine.directive("live-on", (el, { value, expression }, { evaluate }) => {
     Alpine.$data(el).__pinegeist_live_helper.value.on(value, (payload) => {
       evaluate(expression, { scope: { $payload: payload, params: [payload] } });
@@ -79,7 +79,7 @@ var plugin = (Alpine) => {
   Alpine.magic("live", (el) => Alpine.$data(el).__pinegeist_live_helper.value);
 };
 export {
-  createHook,
-  plugin
+  createPinegeistHook,
+  pinegeist
 };
 //# sourceMappingURL=index.js.map

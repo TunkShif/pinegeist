@@ -3,7 +3,7 @@ import { markRaw } from "./utils"
 /**
  * @type {import("alpinejs").PluginCallback}
  */
-export const plugin = (Alpine) => {
+export const pinegeist = (Alpine) => {
   Alpine.directive("live-on", (el, { value, expression }, { evaluate }) => {
     Alpine.$data(el).__pinegeist_live_helper.value.on(value, (payload) => {
       evaluate(expression, { scope: { $payload: payload, params: [payload] } })

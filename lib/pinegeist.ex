@@ -47,7 +47,7 @@ defmodule Pinegeist do
   def island(assigns) do
     ~H"""
     <pinegeist-island x-data x-pinegeist style="display: contents;">
-      <pinegeist-props style="display: none;">
+      <pinegeist-props :if={@prop != []} style="display: none;">
         <script
           :for={prop <- @prop}
           id={"p-#{@id}:#{prop.name}"}
@@ -59,8 +59,7 @@ defmodule Pinegeist do
           <%= Jason.encode!(prop.value) %>
         </script>
       </pinegeist-props>
-
-      <div
+      <pinegeist-render
         id={"p-#{@id}"}
         phx-hook="Pinegeist"
         phx-update="ignore"
@@ -68,7 +67,7 @@ defmodule Pinegeist do
         data-render
       >
         <%= render_slot(@inner_block) %>
-      </div>
+      </pinegeist-render>
     </pinegeist-island>
     """
   end
